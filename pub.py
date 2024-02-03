@@ -1,7 +1,7 @@
 import paho.mqtt.client as mqtt
 import argparse
 import random
-
+import time
 parser = argparse.ArgumentParser(description='MQTT Pubrisher')
 parser.add_argument('--host', type=str, default='localhost', help='MQTT Broker host')
 parser.add_argument('--port', type=int, default=1883, help='MQTT Broker port')
@@ -31,14 +31,19 @@ def connect_mqtt():
 
 
 def publish(client, msg):
+    msg_count = 0
+    while True:
+        time.sleep(1)
+        msg = f"messages: {msg_count}"
+        result = client.publish(topic, msg)
+        # result: [0, 1]
+        status = result[0]
+        if status == 0:
+            print(f"Send `{msg}` to topic `{topic}`")
+        else:
+            print(f"Failed to send message to topic {topic}")
+        msg_count += 1
 
-    result = client.publish(topic, msg)
-    # result: [0, 1]
-    status = result[0]
-    if status == 0:
-        print(f"Send `{msg}` to topic `{topic}`")
-    else:
-        print(f"Failed to send message to topic {topic}")
 
 def run():
     client = connect_mqtt()
