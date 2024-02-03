@@ -13,7 +13,7 @@ broker = args.host
 port = args.port
 topic = args.topic
 
-client_id = f'mqtt-{random.randint(0, 1000)}'
+client_id = 'mqtt-' + str(random.randint(0, 1000))
 
 def connect_mqtt() -> mqtt:
     def on_connect(client, userdata, flags, rc):

@@ -2,17 +2,19 @@ import paho.mqtt.client as mqtt
 import argparse
 import random
 
-parser = argparse.ArgumentParser(description='MQTT Subscriber')
+parser = argparse.ArgumentParser(description='MQTT Pubrisher')
 parser.add_argument('--host', type=str, default='localhost', help='MQTT Broker host')
 parser.add_argument('--port', type=int, default=1883, help='MQTT Broker port')
 parser.add_argument('--topic', type=str, default='arm/left', help='MQTT Topic')
+parser.add_argument('--msg', type=str, default='Helloooooooooo', help='MQTT Msg')
+
 args = parser.parse_args()
 
 broker = args.host
 port = args.port
 topic = args.topic
 
-client_id = f'mqtt-{random.randint(0, 1000)}'
+client_id = 'mqtt-' + str(random.randint(0, 1000))
 
 def connect_mqtt():
     def on_connect(client, userdata, flags, rc):
@@ -28,9 +30,8 @@ def connect_mqtt():
     return client
 
 
-def publish(client):
-    msg_count = 0
-    msg = f"messages: {msg_count}"
+def publish(client, msg):
+
     result = client.publish(topic, msg)
     # result: [0, 1]
     status = result[0]
@@ -42,7 +43,7 @@ def publish(client):
 def run():
     client = connect_mqtt()
     client.loop_start()
-    publish(client)
+    publish(client, args.msg)
 
 
 if __name__ == '__main__':
