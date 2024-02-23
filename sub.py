@@ -33,7 +33,7 @@ def connect_mqtt() -> mqtt:
 def subscribe(client: mqtt):
     def on_message(client, userdata, msg):
         print("Received `{}` from `{}` topic".format(msg.payload.decode(), msg.topic))
-        subprocess.run("../mqtt_test_roomba.sh", shell=True)
+        # subprocess.run("../mqtt_test_roomba.sh", shell=True)
     client.subscribe(topic)
     client.on_message = on_message
 

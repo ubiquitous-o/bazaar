@@ -2,6 +2,8 @@ import paho.mqtt.client as mqtt
 import argparse
 import random
 import time
+import keyboard
+
 parser = argparse.ArgumentParser(description='MQTT Pubrisher')
 parser.add_argument('--host', type=str, default='localhost', help='MQTT Broker host')
 parser.add_argument('--port', type=int, default=1883, help='MQTT Broker port')
@@ -30,26 +32,43 @@ def connect_mqtt():
     return client
 
 
-def publish(client, msg):
-    msg_count = 0
-    while True:
-        time.sleep(1)
-        msg = f"messages: {msg_count}"
-        result = client.publish(topic, msg)
-        # result: [0, 1]
-        status = result[0]
-        if status == 0:
-            print(f"Send `{msg}` to topic `{topic}`")
-        else:
-            print(f"Failed to send message to topic {topic}")
-        msg_count += 1
+def publish(client, msg, topic):
+    result = client.publish(topic, msg)
+    # result: [0, 1]
+    status = result[0]
+    if status == 0:
+        print(f"Send `{msg}` to topic `{topic}`")
+    else:
+        print(f"Failed to send message to topic {topic}")
 
 
 def run():
     client = connect_mqtt()
     client.loop_start()
-    publish(client, args.msg)
+    while True:
+        if keyboard.is_pressed('q'):
+            break
+        elif keyboard.is_pressed('w'):
+            args.msg = 'w'
+            args.topic = 'arm/forward'
+            publish(client, args.msg, args.topic)
 
+        elif keyboard.is_pressed('s'):
+            args.msg = 's'
+            args.topic = 'arm/backward'
+            publish(client, args.msg, args.topic)
+
+        elif keyboard.is_pressed('a'):
+            args.msg = 'a'
+            args.topic = 'arm/left'
+            publish(client, args.msg, args.topic)
+        elif keyboard.is_pressed('d'):
+            args.msg = 'd'
+            args.topic = 'arm/right'
+            publish(client, args.msg, args.topic)
+        else:
+            print("no key pressed")
+            pass
 
 if __name__ == '__main__':
     run()
