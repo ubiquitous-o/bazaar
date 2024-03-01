@@ -3,7 +3,7 @@ import time
 import sys
 
 class ServoMotor:
-    def __init__(self, pin=23, min_angle=0, max_angle=270, ini_angle=90):
+    def __init__(self, pin=23, min_angle=0, max_angle=270, ini_angle=270/2):
         self.pin = pin
         self.max_angle = max_angle
         self.min_angle = min_angle

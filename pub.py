@@ -51,20 +51,34 @@ def run():
 
 def on_press(key):
     print(key)
-    if key.char == 'w':
-        msg = 'w'
+    
+    # topic1
+    if key.char == 'q':
+        msg = '10'
         topic = 'arm/forward'
         publish(msg, topic)
-    elif key.char == 's':
-        msg = 's'
-        topic = 'arm/backward'
+    elif key.char == 'e':
+        msg = '260'
+        topic = 'arm/forward'
         publish(msg, topic)
+    
+    #topic2
     elif key.char == 'a':
-        msg = '100'
+        msg = '10'
         topic = 'arm/left'
         publish(msg, topic)
     elif key.char == 'd':
-        msg = 'd'
+        msg = '260'
+        topic = 'arm/left'
+        publish(msg, topic)
+    
+    #topic3
+    elif key.char == 'z':
+        msg = '10'
+        topic = 'arm/right'
+        publish(msg, topic)
+    elif key.char == 'c':
+        msg = '260'
         topic = 'arm/right'
         publish(msg, topic)
 

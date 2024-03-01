@@ -1,6 +1,6 @@
 import servo
-
+import time
 serv = servo.ServoMotor()
 serv.init()
-
-serv.set_angle(100)
+# time.sleep(1)
+# serv.set_angle(200)
