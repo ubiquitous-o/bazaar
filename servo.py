@@ -12,6 +12,7 @@ class ServoMotor:
         self.pi = None
 
     def init(self):
+        print("init servo")
         self.pi = pigpio.pi()
         self.pi.set_mode(self.pin, pigpio.OUTPUT)
         self.set_initial_angle()
