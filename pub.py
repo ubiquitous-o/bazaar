@@ -60,7 +60,7 @@ def on_press(key):
         topic = 'arm/backward'
         publish(msg, topic)
     elif key.char == 'a':
-        msg = 'a'
+        msg = '100'
         topic = 'arm/left'
         publish(msg, topic)
     elif key.char == 'd':

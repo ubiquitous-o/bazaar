@@ -38,11 +38,10 @@ def subscribe(client: mqtt):
         print("Received `{}` from `{}` topic".format(msg.payload.decode(), msg.topic))
         data = int(msg.payload.decode())
         if data > 0:
-            serv.setangle(int(msg.payload.decode()))
+            serv.set_angle(int(msg.payload.decode()))
             print(str(servo.angle))
         else:
             serv.stop()
-            
     client.subscribe(topic)
     client.on_message = on_message
 
