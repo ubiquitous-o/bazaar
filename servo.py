@@ -34,3 +34,4 @@ class ServoMotor:
         time.sleep(1)
 
     def set_initial_angle(self):
+        self.set_angle(self.ini_angle)
