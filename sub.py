@@ -2,7 +2,7 @@ import random
 import argparse
 from paho.mqtt import client as mqtt
 import subprocess
-
+import servo
 
 parser = argparse.ArgumentParser(description='MQTT Subscriber')
 parser.add_argument('--host', type=str, default='localhost', help='MQTT Broker host')
@@ -15,6 +15,8 @@ port = args.port
 topic = args.topic
 
 client_id = 'mqtt-' + str(random.randint(0, 1000))
+
+global serv
 
 def connect_mqtt() -> mqtt:
     def on_connect(client, userdata, flags, rc):
@@ -32,8 +34,15 @@ def connect_mqtt() -> mqtt:
 
 def subscribe(client: mqtt):
     def on_message(client, userdata, msg):
+        global serv
         print("Received `{}` from `{}` topic".format(msg.payload.decode(), msg.topic))
-        # subprocess.run("../mqtt_test_roomba.sh", shell=True)
+        data = int(msg.payload.decode())
+        if data > 0:
+            serv.setangle(int(msg.payload.decode()))
+            print(str(servo.angle))
+        else:
+            serv.stop()
+            
     client.subscribe(topic)
     client.on_message = on_message
 
@@ -42,7 +51,9 @@ def run():
     client = connect_mqtt()
     subscribe(client)
     client.loop_forever()
-
+    global serv
+    serv = servo.ServoMotor()
+    serv.init()
 
 if __name__ == '__main__':
     run()

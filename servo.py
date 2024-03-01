@@ -3,7 +3,7 @@ import time
 import sys
 
 class ServoMotor:
-    def __init__(self, pin=18, min_angle=0, max_angle=270, ini_angle=90):
+    def __init__(self, pin=23, min_angle=0, max_angle=270, ini_angle=90):
         self.pin = pin
         self.max_angle = max_angle
         self.min_angle = min_angle
@@ -11,9 +11,10 @@ class ServoMotor:
         self.ini_angle = ini_angle
         self.pi = None
 
-    def start(self):
+    def init(self):
         self.pi = pigpio.pi()
         self.pi.set_mode(self.pin, pigpio.OUTPUT)
+        self.set_initial_angle()
 
     def stop(self):
         self.pi.set_mode(self.pin, pigpio.INPUT)
@@ -32,25 +33,4 @@ class ServoMotor:
         self.pi.set_servo_pulsewidth(self.pin, pulse_width)
         time.sleep(1)
 
-    def set_ini_angle(self):
-        self.set_angle(self.ini_angle)
-
-if __name__ == "__main__":
-    args = sys.argv
-
-    servo_motor_vertical = ServoMotor(pin=18, max_angle=270, min_angle=0, ini_angle=90)
-
-    servo_motor_vertical.start()
-
-    servo_motor_vertical.set_angle(int(args[1]))
-
-#    servo_motor_vertical.set_angle(40)
-#    for angle in range(180, -1, -10):
-#        servo_motor_horizontal.set_angle(angle)
-
-
-    servo_motor_vertical.set_ini_angle()
-
-    print("now"+str(servo_motor_vertical.angle))
-
-    servo_motor_vertical.stop()
+    def set_initial_angle(self):
