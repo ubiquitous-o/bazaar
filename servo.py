@@ -18,6 +18,7 @@ class ServoMotor:
         self.set_initial_angle()
 
     def stop(self):
+        print("stop servo")
         self.pi.set_mode(self.pin, pigpio.INPUT)
         self.pi.stop()
 

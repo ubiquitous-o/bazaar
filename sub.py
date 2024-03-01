@@ -39,7 +39,6 @@ def subscribe(client: mqtt):
         data = int(msg.payload.decode())
         if data > 0:
             serv.set_angle(int(msg.payload.decode()))
-            print(str(servo.angle))
         else:
             serv.stop()
     client.subscribe(topic)
