@@ -48,11 +48,13 @@ def subscribe(client: mqtt):
 
 def run():
     client = connect_mqtt()
-    subscribe(client)
-    client.loop_forever()
     global serv
     serv = servo.ServoMotor()
     serv.init()
+    
+    subscribe(client)
+    client.loop_forever()
+
 
 if __name__ == '__main__':
     run()
