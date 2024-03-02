@@ -33,7 +33,7 @@ class ServoMotor:
         print("pulse_width" + str(pulse_width))
         self.angle = target_angle
         self.pi.set_servo_pulsewidth(self.pin, pulse_width)
-        time.sleep(1)
+        # time.sleep(1)
 
     def set_initial_angle(self):
         self.set_angle(self.ini_angle)

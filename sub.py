@@ -3,6 +3,7 @@ import argparse
 from paho.mqtt import client as mqtt
 import subprocess
 import servo
+import sys
 
 parser = argparse.ArgumentParser(description='MQTT Subscriber')
 parser.add_argument('--host', type=str, default='localhost', help='MQTT Broker host')
@@ -56,12 +57,14 @@ def subscribe(client: mqtt):
             else:
                 serv_arml.stop()
 
+
         elif msg.topic == 'arm/right':
             data = int(msg.payload.decode())
             if data > 0:
                 serv_armr.set_angle(int(msg.payload.decode()))
             else:
                 serv_armr.stop()
+                sys.exit("bye")
         else:
             pass
         
