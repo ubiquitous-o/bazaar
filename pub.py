@@ -2,7 +2,7 @@ import paho.mqtt.client as mqtt
 import argparse
 import random
 import time
-from pynput.keyboard import Listener
+from pynput.keyboard import Listener, Key
 
 
 parser = argparse.ArgumentParser(description='MQTT Pubrisher')
@@ -52,41 +52,57 @@ def run():
 def on_press(key):
     print(key)
     
-    # topic1
-    if key.char == 'q':
-        msg = '10'
-        topic = 'head'
-        publish(msg, topic)
-    elif key.char == 'e':
-        msg = '260'
-        topic = 'head'
-        publish(msg, topic)
-    
-    #topic2
-    elif key.char == 'a':
-        msg = '10'
-        topic = 'arm/left'
-        publish(msg, topic)
-    elif key.char == 'd':
-        msg = '260'
-        topic = 'arm/left'
-        publish(msg, topic)
-    
-    #topic3
-    elif key.char == 'z':
-        msg = '10'
-        topic = 'arm/right'
-        publish(msg, topic)
-    elif key.char == 'c':
-        msg = '260'
-        topic = 'arm/right'
-        publish(msg, topic)
+    try:
+        if key == Key.esc:
+            print("Exiting...")
+            msg = '-100'
+            topic = "head"
+            publish(msg, topic)
+            topic = "arm/left"
+            publish(msg, topic)
+            topic = "arm/right"
+            publish(msg, topic)
+            
+            return False
 
-    else:
-        print("no key pressed")
+        # topic1
+        elif key.char == 'q':
+            msg = '10'
+            topic = 'head'
+            publish(msg, topic)
+        elif key.char == 'e':
+            msg = '260'
+            topic = 'head'
+            publish(msg, topic)
+        
+        #topic2
+        elif key.char == 'a':
+            msg = '10'
+            topic = 'arm/left'
+            publish(msg, topic)
+        elif key.char == 'd':
+            msg = '260'
+            topic = 'arm/left'
+            publish(msg, topic)
+        
+        #topic3
+        elif key.char == 'z':
+            msg = '10'
+            topic = 'arm/right'
+            publish(msg, topic)
+        elif key.char == 'c':
+            msg = '260'
+            topic = 'arm/right'
+            publish(msg, topic)
+
+
+        else:
+            print("no key pressed")
+            pass
+
+    except Exception as e:
+        print(e)
         pass
-
-
 
 if __name__ == '__main__':
     run()
