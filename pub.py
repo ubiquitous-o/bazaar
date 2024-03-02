@@ -55,11 +55,11 @@ def on_press(key):
     # topic1
     if key.char == 'q':
         msg = '10'
-        topic = 'arm/forward'
+        topic = 'head'
         publish(msg, topic)
     elif key.char == 'e':
         msg = '260'
-        topic = 'arm/forward'
+        topic = 'head'
         publish(msg, topic)
     
     #topic2

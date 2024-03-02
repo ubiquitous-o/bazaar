@@ -7,16 +7,18 @@ import servo
 parser = argparse.ArgumentParser(description='MQTT Subscriber')
 parser.add_argument('--host', type=str, default='localhost', help='MQTT Broker host')
 parser.add_argument('--port', type=int, default=1883, help='MQTT Broker port')
-parser.add_argument('--topic', type=str, default='arm/left', help='MQTT Topic')
+# parser.add_argument('--topic', type=str, default='arm/left', help='MQTT Topic')
 args = parser.parse_args()
 
 broker = args.host
 port = args.port
-topic = args.topic
+# topic = args.topic
 
 client_id = 'mqtt-' + str(random.randint(0, 1000))
 
-global serv
+global serv_head
+global serv_arml
+global serv_armr
 
 def connect_mqtt() -> mqtt:
     def on_connect(client, userdata, flags, rc):
@@ -34,23 +36,55 @@ def connect_mqtt() -> mqtt:
 
 def subscribe(client: mqtt):
     def on_message(client, userdata, msg):
-        global serv
+        global serv_head
+        global serv_arml
+        global serv_armr
+
         print("Received `{}` from `{}` topic".format(msg.payload.decode(), msg.topic))
-        data = int(msg.payload.decode())
-        if data > 0:
-            serv.set_angle(int(msg.payload.decode()))
+        
+        if msg.topic == 'head':
+            data = int(msg.payload.decode())
+            if data > 0:
+                serv_head.set_angle(int(msg.payload.decode()))
+            else:
+                serv_head.stop()
+
+        elif msg.topic == 'arm/left':
+            data = int(msg.payload.decode())
+            if data > 0:
+                serv_arml.set_angle(int(msg.payload.decode()))
+            else:
+                serv_arml.stop()
+
+        elif msg.topic == 'arm/right':
+            data = int(msg.payload.decode())
+            if data > 0:
+                serv_armr.set_angle(int(msg.payload.decode()))
+            else:
+                serv_armr.stop()
         else:
-            serv.stop()
-    client.subscribe(topic)
+            pass
+        
+        
+    client.subscribe("head")
+    client.subscribe("arm/left")
+    client.subscribe("arm/right")
     client.on_message = on_message
 
 
 def run():
     client = connect_mqtt()
-    global serv
-    serv = servo.ServoMotor()
-    serv.init()
-    
+    global serv_head
+    global serv_arml
+    global serv_armr
+
+    serv_head = servo.ServoMotor(pin=18)
+    serv_head.init()
+    serv_arml = servo.ServoMotor(pin=23)
+    serv_arml.init()
+    serv_armr = servo.ServoMotor(pin=24)
+    serv_armr.init()
+
     subscribe(client)
     client.loop_forever()
 
