@@ -20,6 +20,7 @@ client_id = 'mqtt-' + str(random.randint(0, 1000))
 global serv_head
 global serv_arml
 global serv_armr
+global light
 
 def connect_mqtt() -> mqtt:
     def on_connect(client, userdata, flags, rc):
@@ -40,6 +41,7 @@ def subscribe(client: mqtt):
         global serv_head
         global serv_arml
         global serv_armr
+        global light
 
         print("Received `{}` from `{}` topic".format(msg.payload.decode(), msg.topic))
         
@@ -65,6 +67,14 @@ def subscribe(client: mqtt):
             else:
                 serv_armr.stop()
                 sys.exit("bye")
+        elif msg.topic == 'eye':
+            data = int(msg.payload.decode())
+            if data > 0:
+                light.write(2, 1)
+                print("light on")
+            else:
+                light.write(2, 0)
+                print("light off")
         else:
             pass
         
@@ -80,6 +90,7 @@ def run():
     global serv_head
     global serv_arml
     global serv_armr
+    global light
 
     serv_head = servo.ServoMotor(pin=18)
     serv_head.init()
@@ -87,6 +98,9 @@ def run():
     serv_arml.init()
     serv_armr = servo.ServoMotor(pin=24)
     serv_armr.init()
+
+    light = pigpio.pi()
+    light.set_mode(2,pigpio.OUTPUT)
 
     subscribe(client)
     client.loop_forever()

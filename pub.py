@@ -95,6 +95,16 @@ def on_press(key):
             topic = 'arm/right'
             publish(msg, topic)
 
+        #topic4
+        elif key.char == 'o':
+            msg = '10'
+            topic = 'eye'
+            publish(msg, topic)
+        elif key.char == 'i':
+            msg = '-10'
+            topic = 'eye'
+            publish(msg, topic)        
+
 
         else:
             print("no key pressed")
