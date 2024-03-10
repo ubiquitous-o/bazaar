@@ -62,6 +62,8 @@ def on_press(key):
             publish(msg, topic)
             topic = "arm/right"
             publish(msg, topic)
+            topic = "eye"
+            publish(msg,topic)
             
             return False
 

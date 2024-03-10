@@ -4,6 +4,8 @@ from paho.mqtt import client as mqtt
 import subprocess
 import servo
 import sys
+import pigpio
+
 
 parser = argparse.ArgumentParser(description='MQTT Subscriber')
 parser.add_argument('--host', type=str, default='localhost', help='MQTT Broker host')
