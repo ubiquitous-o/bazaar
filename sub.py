@@ -84,6 +84,7 @@ def subscribe(client: mqtt):
     client.subscribe("head")
     client.subscribe("arm/left")
     client.subscribe("arm/right")
+    client.subscribe("eye")
     client.on_message = on_message
 
 
