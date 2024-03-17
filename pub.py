@@ -6,7 +6,7 @@ from pynput.keyboard import Listener, Key
 
 
 parser = argparse.ArgumentParser(description='MQTT Pubrisher')
-parser.add_argument('--host', type=str, default='localhost', help='MQTT Broker host')
+parser.add_argument('--host', type=str, default='172.22.22.49', help='MQTT Broker host')
 parser.add_argument('--port', type=int, default=1883, help='MQTT Broker port')
 
 args = parser.parse_args()
@@ -73,7 +73,7 @@ def on_press(key):
             topic = 'head'
             publish(msg, topic)
         elif key.char == 'e':
-            msg = '260'
+            msg = '120'
             topic = 'head'
             publish(msg, topic)
         
@@ -83,7 +83,7 @@ def on_press(key):
             topic = 'arm/left'
             publish(msg, topic)
         elif key.char == 'd':
-            msg = '260'
+            msg = '120'
             topic = 'arm/left'
             publish(msg, topic)
         
@@ -93,7 +93,7 @@ def on_press(key):
             topic = 'arm/right'
             publish(msg, topic)
         elif key.char == 'c':
-            msg = '260'
+            msg = '120'
             topic = 'arm/right'
             publish(msg, topic)
 

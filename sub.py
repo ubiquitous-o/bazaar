@@ -8,7 +8,7 @@ import pigpio
 
 
 parser = argparse.ArgumentParser(description='MQTT Subscriber')
-parser.add_argument('--host', type=str, default='localhost', help='MQTT Broker host')
+parser.add_argument('--host', type=str, default='172.22.22.49', help='MQTT Broker host')
 parser.add_argument('--port', type=int, default=1883, help='MQTT Broker port')
 # parser.add_argument('--topic', type=str, default='arm/left', help='MQTT Topic')
 args = parser.parse_args()
